@@ -14,7 +14,27 @@ TEST(ReviewTest, NeedException) {
 
 }
 
+
+
+TEST(MovieTest, ShouldPass_Init) {
+    Movie m("Forrest Gump", 1994, "Robert Zemeckis", 142);
+
+    EXPECT_EQ(m.getTitle(), "Forrest Gump");
+    EXPECT_EQ(m.getYear(), 1994);
+    EXPECT_EQ(m.getDuration(), 142);
+    EXPECT_EQ(m.getAveRating(), 0.0);
+}
+
+TEST(MovieTest, ShouldPass_AveRate) {
+    Movie m("Forrest Gump", 1994, "Robert Zemeckis", 142);
+
+    m.addReview(Review("liza1", "amazing", 10));
+    EXPECT_EQ(m.getAveRating(), 10.0);
+    m.addReview(Review("liza2", "norm", 5));
+    EXPECT_EQ(m.getAveRating(), 7.5);
+}
+
 int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
+    testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
