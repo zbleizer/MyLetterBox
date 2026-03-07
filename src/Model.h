@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <iostream>
+#include <vector>
 
 class Review {
     std::string author;
@@ -26,22 +27,31 @@ public:
 class Media {
 protected:
     std::string title;
-    int year;
     std::vector<Review> reviews;
+    std::string genres;
+    std::string homepage;
+    std::vector<std::string> keywords;
+
+    static std::string low(std::string s) {
+        std::transform(s.begin(), s.end(), s.begin(),[](char c){return static_cast<char>(std::tolower(c));});
+        return s;
+    }
 
 public:
-    Media(std::string t, int y) : title(std::move(t)), year(y) {}
+    Media(std::string t, std::string g, std::string hp, std::vector<std::string> kw) : title(std::move(t)), genres(std::move(g)), homepage(std::move(hp)), keywords(std::move(kw)) {}
     virtual ~Media() = default;
 
     virtual void info() const = 0;
     virtual int getDuration() const = 0;
-
     std::string getTitle() const {
         return title;
     }
-    int getYear() const {
-        return year;
+    std::string getGenres() const {
+        return genres;
     }
+    virtual std::string getType() const = 0;
+    virtual bool haveKeyword(const std::string& s) const = 0; // НОВОЕ
+
     void addReview(const Review& r) {
         reviews.push_back(r);
     }
@@ -69,16 +79,35 @@ public:
 };
 
 class Movie : public Media {
-    std::string director;
     int duration;
 public:
-    Movie(std::string t, int y, std::string d, int dur) : Media(std::move(t), y), director(std::move(d)), duration(dur) {}
+    Movie(std::string t, std::string g, std::string hp, std::vector<std::string> kw, int dur) : Media(std::move(t), std::move(g), std::move(hp), std::move(kw)), duration(dur) {}
 
     void info() const override {
-        std::cout << "[Movie] " << title << " (" << year << ") | Dir: " << director << " | " << duration << " min | Rating: " << getAveRating() << "/10\n";
+        std::cout << "[Movie] " << title << " | Genres: " << genres << " | " << duration << " min" << " | Rating: " << getAveRating() << "/10";
+        if (!homepage.empty()) {
+            std::cout << " | Homepage: " << homepage;
+        }
+        std::cout << "\n";
     }
+
     int getDuration() const override {
         return duration;
+    }
+    std::string getType() const override {
+        return "Movie";
+    }
+    bool haveKeyword(const std::string& s) const override {
+        if (s.empty()) {
+            return true;
+        }
+        const std::string q = low(s);
+        for (const auto& k : keywords) {
+            if (low(k) == q) {
+                return true;
+            }
+        }
+        return false;
     }
 };
 
