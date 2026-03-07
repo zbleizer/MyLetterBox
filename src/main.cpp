@@ -1,3 +1,5 @@
-//
-// Created by liza9 on 05.03.2026.
-//
+#include <iostream>
+int main() {
+    std::cout << "gg";
+    return 0;
+}
