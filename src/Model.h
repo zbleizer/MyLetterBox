@@ -67,4 +67,19 @@ public:
         }
     }
 };
+
+class Movie : public Media {
+    std::string director;
+    int duration;
+public:
+    Movie(std::string t, int y, std::string d, int dur) : Media(std::move(t), y), director(std::move(d)), duration(dur) {}
+
+    void info() const override {
+        std::cout << "[Movie] " << title << " (" << year << ") | Dir: " << director << " | " << duration << " min | Rating: " << getAveRating() << "/10\n";
+    }
+    int getDuration() const override {
+        return duration;
+    }
+};
+
 #endif
