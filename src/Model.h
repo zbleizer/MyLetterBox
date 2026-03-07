@@ -27,6 +27,7 @@ class Media {
 protected:
     std::string title;
     int year;
+    std::vector<Review> reviews;
 
 public:
     Media(std::string t, int y) : title(std::move(t)), year(y) {}
@@ -41,6 +42,29 @@ public:
     int getYear() const {
         return year;
     }
+    void addReview(const Review& r) {
+        reviews.push_back(r);
+    }
 
+    double getAveRating() const {
+        if (reviews.empty()) {
+            return 0.0;
+        }
+        double sum = 0;
+        for (const auto& r : reviews) {
+            sum += r.getScore();
+        }
+        return sum / reviews.size();
+    }
+
+    void printReview() const {
+        std::cout << "Reviews for " << title << ":\n";
+        if (reviews.empty()) {
+            std::cout << "No reviews yet\n";
+        }
+        for (const auto& r : reviews) {
+            r.print();
+        }
+    }
 };
 #endif
