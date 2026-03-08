@@ -41,9 +41,9 @@ protected:
         if (s.empty()) {
             return true;
         }
-        const auto tt = low(t);
+        const auto tt = ' ' + low(t) + ' ';
         const auto ss = low(s);
-        return tt.find(ss) != std::string::npos;
+        return tt.find(' ' + ss + ' ') != std::string::npos;
     }
 
 public:

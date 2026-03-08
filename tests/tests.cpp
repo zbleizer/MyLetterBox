@@ -46,6 +46,31 @@ TEST(MovieTest, ShouldPass_Keywords) {
     EXPECT_FALSE(m.haveKeyword("gg"));
 }
 
+
+TEST(SeriesTest, ShouldPass_Init) {
+    Series s("Breaking Bad", "A chemistry teacher becomes a xxxx producer", 62, 5, "/bb.jpg", "Crime Drama");
+
+    EXPECT_EQ(s.getTitle(), "Breaking Bad");
+    EXPECT_EQ(s.getGenres(), "Crime Drama");
+    EXPECT_EQ(s.getNumEpisodes(), 62);
+    EXPECT_EQ(s.getNumSeasons(), 5);
+    EXPECT_EQ(s.getPoster(), "/bb.jpg");
+    EXPECT_EQ(s.getType(), "Series");
+
+    EXPECT_EQ(s.getDuration(), 62 * 45);
+
+    EXPECT_NO_THROW(s.info());
+}
+
+TEST(SeriesTest, ShouldPass_Keywords) {
+    Series s("Breaking Bad", "A chemistry teacher becomes a xxxx producer", 62, 5, "/bb.jpg", "Crime Drama");
+
+    EXPECT_TRUE(s.haveKeyword("producer"));
+    EXPECT_TRUE(s.haveKeyword("CHEMISTRY"));
+    EXPECT_TRUE(s.haveKeyword("Teacher"));
+    EXPECT_FALSE(s.haveKeyword("be"));
+}
+
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
