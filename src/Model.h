@@ -37,6 +37,15 @@ protected:
         return s;
     }
 
+    static bool haveSubstring(const std::string& t, const std::string& s) {
+        if (s.empty()) {
+            return true;
+        }
+        const auto tt = low(t);
+        const auto ss = low(s);
+        return tt.find(ss) != std::string::npos;
+    }
+
 public:
     Media(std::string t, std::string g, std::string hp, std::vector<std::string> kw) : title(std::move(t)), genres(std::move(g)), homepage(std::move(hp)), keywords(std::move(kw)) {}
     virtual ~Media() = default;
@@ -50,7 +59,7 @@ public:
         return genres;
     }
     virtual std::string getType() const = 0;
-    virtual bool haveKeyword(const std::string& s) const = 0; // НОВОЕ
+    virtual bool haveKeyword(const std::string& s) const = 0;
 
     void addReview(const Review& r) {
         reviews.push_back(r);
@@ -108,6 +117,49 @@ public:
             }
         }
         return false;
+    }
+};
+
+class Series : public Media {
+    std::string overview;
+    int num_episodes;
+    int num_seasons;
+    std::string poster;
+
+public:
+    Series(std::string name, std::string ov, int ep, int se, std::string poster, std::string g) : Media(std::move(name), std::move(g), "", {}), overview(std::move(ov)), num_episodes(ep), num_seasons(se), poster(std::move(poster)) {}
+
+    void info() const override {
+        std::cout << "[Series] " << title << " | Genres: " << genres << " | Seasons: " << num_seasons << " | Episodes: " << num_episodes << " | Rating: " << getAveRating() << "/10";
+        if (!poster.empty()) {
+            std::cout << " | Poster: " << poster;
+        }
+        std::cout << "\n";
+    }
+
+    int getDuration() const override {
+        return num_episodes * 45;
+    }
+
+    std::string getType() const override {
+        return "Series";
+    }
+
+    bool haveKeyword(const std::string& s) const override {
+        return haveSubstring(overview, s);
+    }
+
+    std::string getOverview() const {
+        return overview;
+    }
+    int getNumEpisodes() const {
+        return num_episodes;
+    }
+    int getNumSeasons() const {
+        return num_seasons;
+    }
+    std::string getPoster() const {
+        return poster;
     }
 };
 
