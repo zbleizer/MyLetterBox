@@ -65,13 +65,7 @@ public:
             try {
                 int episodes = episode.empty() ? 0 : std::stoi(episode);
                 int seasons  = season.empty() ? 0 : std::stoi(season);
-                data.push_back(std::make_shared<Series>(
-                    name,
-                    overview,
-                    episodes,
-                    seasons,
-                    poster,
-                    genres
+                data.push_back(std::make_shared<Series>(name,overview, episodes,seasons, poster,genres
                 ));
             } catch (...) {
                 continue;
@@ -80,6 +74,9 @@ public:
         return data;
     }
 };
+
+
+
 
 
 #endif //MYLETTERBOX_DATA_H

@@ -127,6 +127,21 @@ TEST(CSVParserTest, ShouldPass_ParseMoviesFile) {
     std::remove(path.c_str());
 }
 
+TEST(CSVParserTest, ShouldPass_ParseSeriesFile) {
+    const std::string path = "test_series.csv";
+    writeTextFile(path,
+        "name;overview;number_of_episodes;number_of_seasons;poster_path;genres\n"
+        "Breaking Bad;A chemistry teacher becomes a meth producer;62;5;/bb.jpg;Crime Drama\n"
+        "Chernobyl;A dramatization of the nuclear disaster;5;1;/ch.jpg;Drama History\n"
+    );
+    auto vec = CSVParser::parseSeries(path);
+    EXPECT_EQ(vec.size(), 2);
+    EXPECT_EQ(vec[0]->getType(), "Series");
+    EXPECT_EQ(vec[0]->getTitle(), "Breaking Bad");
+    EXPECT_EQ(vec[0]->getDuration(), 62 * 45);
+    std::remove(path.c_str());
+}
+
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
