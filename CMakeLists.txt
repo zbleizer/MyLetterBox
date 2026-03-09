@@ -12,6 +12,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 add_executable(MyLetterBox src/main.cpp
-        src/Model.h)
+        src/Model.h
+        src/User.h)
 add_executable(Tests tests/tests.cpp)
 target_link_libraries(Tests gtest_main)
