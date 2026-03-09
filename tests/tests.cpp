@@ -196,6 +196,19 @@ TEST(DatabaseTest, ShouldPass) {
     std::remove(series.c_str());
 }
 
+TEST(AnalyticsTest, ShouldPass1) {
+    std::vector<std::shared_ptr<Media>> list;
+    list.push_back(std::make_shared<Movie>("M1", "G", "", std::vector<std::string>{"a"}, 100));
+    list.push_back(std::make_shared<Series>("S1", "overview", 2, 1, "", "Drama"));
+
+    EXPECT_EQ(Analytics::calculate(list), 190);
+}
+
+TEST(AnalyticsTest, ShouldPass2) {
+    std::vector<std::shared_ptr<Media>> list;
+    EXPECT_EQ(Analytics::calculate(list), 0);
+}
+
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
