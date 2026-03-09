@@ -13,6 +13,7 @@ FetchContent_MakeAvailable(googletest)
 
 add_executable(MyLetterBox src/main.cpp
         src/Model.h
+        src/Data.h
         src/User.h)
 add_executable(Tests tests/tests.cpp)
 target_link_libraries(Tests gtest_main)
