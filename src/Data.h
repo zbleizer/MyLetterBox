@@ -74,6 +74,14 @@ public:
     }
 };
 
+struct Genre {
+    std::string genre;
+};
+struct Keyword {
+    std::string keyword;
+};
+using Search = std::variant<Genre, Keyword>;
+
 class Database {
     std::vector<std::shared_ptr<Media>> lib;
 public:
@@ -117,6 +125,24 @@ public:
             }
         }
         return res;
+    }
+    std::vector<std::shared_ptr<Media>> search(const Search& a) const {
+        return std::visit([this](const auto& k) -> std::vector<std::shared_ptr<Media>> {
+            using T = std::decay_t<decltype(k)>;
+            if constexpr (std::is_same_v<T, Genre>) {
+                std::vector<std::shared_ptr<Media>> res;
+                for (const auto& i : lib) {
+                    if (i->getGenres().find(k.genre) != std::string::npos) {
+                        res.push_back(i);
+                    }
+                }
+                return res;
+            } else if constexpr (std::is_same_v<T, Keyword>) {
+                return this->findbyKeyword(k.keyword);
+            } else {
+                return {};
+            }
+        }, a);
     }
 };
 #endif //MYLETTERBOX_DATA_H
