@@ -145,4 +145,15 @@ public:
         }, a);
     }
 };
-#endif //MYLETTERBOX_DATA_H
+
+class Analytics{
+public:
+    static int calculate(const std::vector<std::shared_ptr<Media>>& list) {
+        int c = 0;
+        for (const auto& m : list) {
+            c += m->getDuration();
+        }
+        return c;
+    }
+};
+#endif
