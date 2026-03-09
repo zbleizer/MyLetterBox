@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../src/Model.h"
+#include "../src/User.h"
 
 TEST(ReviewTest, ShouldPass) {
     EXPECT_NO_THROW(Review("liza1", "super", 10));
@@ -70,6 +71,33 @@ TEST(SeriesTest, ShouldPass_Keywords) {
     EXPECT_TRUE(s.haveKeyword("Teacher"));
     EXPECT_FALSE(s.haveKeyword("be"));
 }
+
+TEST(CustomTest, ShouldPass) {
+    Custom c("Favs");
+    EXPECT_EQ(c.getItems().size(),0);
+
+    auto p=std::make_shared<Movie>("Pulp Fiction", "Crime", "", std::vector<std::string>{"drug"}, 154);
+    c.addMedia(p);
+
+    EXPECT_EQ(c.getItems().size(), 1);
+    EXPECT_EQ(c.getItems()[0]->getTitle(), "Pulp Fiction");
+}
+
+TEST(CustomTestSecond, ShouldPass) {
+    Custom c("Favs");
+    EXPECT_EQ(c.getItems().size(),0);
+
+    auto p=std::make_shared<Movie>("Pulp Fiction", "Crime", "", std::vector<std::string>{"drug"}, 154);
+    c.addMedia(p);
+
+    auto h=std::make_shared<Movie>("Harry Potter and the Half-Blood Prince", "Fantasy", "", std::vector<std::string>{"magic"}, 153);
+    c.addMedia(h);
+
+    EXPECT_EQ(c.getItems().size(), 2);
+    EXPECT_EQ(c.getItems()[0]->getTitle(), "Pulp Fiction");
+    EXPECT_EQ(c.getItems()[1]->getTitle(), "Harry Potter and the Half-Blood Prince");
+}
+
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
