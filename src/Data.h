@@ -65,8 +65,7 @@ public:
             try {
                 int episodes = episode.empty() ? 0 : std::stoi(episode);
                 int seasons  = season.empty() ? 0 : std::stoi(season);
-                data.push_back(std::make_shared<Series>(name,overview, episodes,seasons, poster,genres
-                ));
+                data.push_back(std::make_shared<Series>(name,overview, episodes,seasons, poster,genres));
             } catch (...) {
                 continue;
             }
@@ -75,8 +74,23 @@ public:
     }
 };
 
-
-
-
-
+class Database {
+    std::vector<std::shared_ptr<Media>> lib;
+public:
+    void loadMovies(const std::string& file) {
+        auto movies = CSVParser::parseMovie(file);
+        lib.insert(lib.end(), movies.begin(), movies.end());
+    }
+    void loadSeries(const std::string& file) {
+        auto series = CSVParser::parseSeries(file);
+        lib.insert(lib.end(), series.begin(), series.end());
+    }
+    void loadAll(const std::string& movF, const std::string& serF) {
+        loadMovies(movF);
+        loadSeries(serF);
+    }
+    const std::vector<std::shared_ptr<Media>>& getAll() const {
+        return lib;
+    }
+};
 #endif //MYLETTERBOX_DATA_H
