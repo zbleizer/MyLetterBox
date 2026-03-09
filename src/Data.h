@@ -13,6 +13,13 @@ inline std::vector<std::string> SplitkeywordsbySpace(const std::string& s) {
     return out;
 }
 
+class CSVParser {
+public:
+    static std::vector<std::shared_ptr<Media>> parseMovie(const std::string& file);
+
+    static std::vector<std::shared_ptr<Media>> parseSeries(const std::string& file);
+
+};
 
 
 #endif //MYLETTERBOX_DATA_H
