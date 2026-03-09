@@ -30,4 +30,24 @@ public:
         return items;
     }
 };
+
+class User {
+    std::string nickname;
+    Custom favs;
+    Custom watched;
+public:
+    User(std::string name):nickname(std::move(name)),favs("Favorites"), watched("Watched"){}
+
+    std::string getName() const {
+        return nickname;
+    }
+
+    void addToFavs(std::shared_ptr<Media> f) {
+        favs.addMedia(std::move(f));
+    }
+
+    void addToWatched(std::shared_ptr<Media> w) {
+        watched.addMedia(std::move(w));
+    }
+};
 #endif
