@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "../src/Model.h"
+#include "../src/User.h"
 
 TEST(ReviewTest, ShouldPass) {
     EXPECT_NO_THROW(Review("liza1", "super", 10));
@@ -69,6 +70,17 @@ TEST(SeriesTest, ShouldPass_Keywords) {
     EXPECT_TRUE(s.haveKeyword("CHEMISTRY"));
     EXPECT_TRUE(s.haveKeyword("Teacher"));
     EXPECT_FALSE(s.haveKeyword("be"));
+}
+
+TEST(CustomTest, ShouldPass) {
+    Custom c("Favs");
+    EXPECT_EQ(c.getItems().size(),0);
+
+    auto p=std::make_shared<Movie>("Pulp Fiction", "Crime", "", std::vector<std::string>{"drug"}, 154);
+    c.addMedia(p);
+
+    EXPECT_EQ(c.getItems().size(), 1);
+    EXPECT_EQ(c.getItems()[0]->getTitle(), "Pulp Fiction");
 }
 
 int main(int argc, char **argv) {
