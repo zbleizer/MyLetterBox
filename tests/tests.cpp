@@ -83,6 +83,22 @@ TEST(CustomTest, ShouldPass) {
     EXPECT_EQ(c.getItems()[0]->getTitle(), "Pulp Fiction");
 }
 
+TEST(CustomTestSecond, ShouldPass) {
+    Custom c("Favs");
+    EXPECT_EQ(c.getItems().size(),0);
+
+    auto p=std::make_shared<Movie>("Pulp Fiction", "Crime", "", std::vector<std::string>{"drug"}, 154);
+    c.addMedia(p);
+
+    auto h=std::make_shared<Movie>("Harry Potter and the Half-Blood Prince", "Fantasy", "", std::vector<std::string>{"magic"}, 153);
+    c.addMedia(h);
+
+    EXPECT_EQ(c.getItems().size(), 2);
+    EXPECT_EQ(c.getItems()[0]->getTitle(), "Pulp Fiction");
+    EXPECT_EQ(c.getItems()[1]->getTitle(), "Harry Potter and the Half-Blood Prince");
+}
+
+
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
