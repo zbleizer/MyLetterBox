@@ -98,6 +98,12 @@ TEST(CustomTestSecond, ShouldPass) {
     EXPECT_EQ(c.getItems()[1]->getTitle(), "Harry Potter and the Half-Blood Prince");
 }
 
+TEST(CustomTestThird, ShouldPassSeries) {
+    Custom w("Watched");
+    auto s=std::make_shared<Series>("Shameless","gallagher",1,1,"/9akij7PqZ1g6zl42DQQTtL9CTSb.jpg","Drama");
+    w.addMedia(s);
+}
+
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
