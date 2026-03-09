@@ -142,6 +142,10 @@ TEST(CSVParserTest, ShouldPass_ParseSeriesFile) {
     std::remove(path.c_str());
 }
 
+TEST(CSVParserTest, NeedException) {
+    EXPECT_THROW(CSVParser::parseMovie("no_movies.csv"), std::runtime_error);
+    EXPECT_THROW(CSVParser::parseSeries("no_series.csv"), std::runtime_error);
+}
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
