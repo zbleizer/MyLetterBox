@@ -92,5 +92,31 @@ public:
     const std::vector<std::shared_ptr<Media>>& getAll() const {
         return lib;
     }
+    std::optional<std::shared_ptr<Media>> findbyTittle(const std::string& title) const {
+        for (const auto& m : lib) {
+            if (m->getTitle() == title) {
+                return m;
+            }
+        }
+        return std::nullopt;
+    }
+    std::vector<std::shared_ptr<Media>> findbyKeyword(const std::string& k) const {
+        std::vector<std::shared_ptr<Media>> res;
+        for (const auto& m : lib) {
+            if (m->haveKeyword(k)) {
+                res.push_back(m);
+            }
+        }
+        return res;
+    }
+    std::vector<std::shared_ptr<Media>> filterbyType(const std::string& type) const {
+        std::vector<std::shared_ptr<Media>> res;
+        for (const auto& m : lib) {
+            if (m->getType() == type) {
+                res.push_back(m);
+            }
+        }
+        return res;
+    }
 };
 #endif //MYLETTERBOX_DATA_H
