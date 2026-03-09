@@ -147,6 +147,55 @@ TEST(CSVParserTest, NeedException) {
     EXPECT_THROW(CSVParser::parseSeries("no_series.csv"), std::runtime_error);
 }
 
+TEST(DatabaseTest, ShouldPass) {
+    const std::string movie = "test_movies2.csv";
+    const std::string series = "test_series2.csv";
+    writeTextFile(movie,
+        "genres;homepage;keywords;title;duration\n"
+        "Sci-Fi;https://site;dream heist;Inception;148\n"
+        "Drama;;prison hope;Shawshank;142\n"
+    );
+    writeTextFile(series,
+        "name;overview;number_of_episodes;number_of_seasons;poster_path;genres\n"
+        "Breaking Bad;A chemistry teacher becomes a meth producer;62;5;/bb.jpg;Crime Drama\n"
+        "Chernobyl;A dramatization of the nuclear disaster;5;1;/ch.jpg;Drama History\n"
+    );
+    Database db;
+    db.loadAll(movie, series);
+    EXPECT_EQ(db.getAll().size(), 4);
+
+    auto movie1 = db.findbyTittle("Inception");
+    EXPECT_TRUE(movie1.has_value());
+    EXPECT_EQ(movie1.value()->getType(), "Movie");
+
+    auto series1 = db.findbyTittle("Breaking Bad");
+    EXPECT_TRUE(series1.has_value());
+    EXPECT_EQ(series1.value()->getType(), "Series");
+
+    auto nf = db.findbyTittle("Unknown");
+    EXPECT_FALSE(nf.has_value());
+
+    auto movie2 = db.filterbyType("Movie");
+    EXPECT_EQ(movie2.size(), 2);
+
+    auto series2 = db.filterbyType("Series");
+    EXPECT_EQ(series2.size(), 2);
+
+    auto movie3 = db.findbyKeyword("dream");
+    ASSERT_GE(movie3.size(), 1);
+    bool hasIn = false;
+    for (const auto& x : movie3) if (x->getTitle() == "Inception") hasIn = true;
+    EXPECT_TRUE(hasIn);
+
+    auto series3 = db.findbyKeyword("chemistry");
+    bool hasBB = false;
+    for (const auto& x : series3) if (x->getTitle() == "Breaking Bad") hasBB = true;
+    EXPECT_TRUE(hasBB);
+
+    std::remove(movie.c_str());
+    std::remove(series.c_str());
+}
+
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
