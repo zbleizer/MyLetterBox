@@ -5,6 +5,7 @@
 #include <sstream>
 #include <fstream>
 #include <string>
+#include <memory>
 
 inline std::vector<std::string> SplitkeywordsbySpace(const std::string& s) {
     std::vector<std::string> out;
@@ -44,7 +45,40 @@ public:
         }
         return data;
     }
-    static std::vector<std::shared_ptr<Media>> parseSeries(const std::string& file);
+    static std::vector<std::shared_ptr<Media>> parseSeries(const std::string& filename) {
+        std::vector<std::shared_ptr<Media>> data;
+        std::ifstream file(filename);
+        if (!file.is_open()) {
+            throw std::runtime_error("Cannot open file: " + filename);
+        }
+        std::string line;
+        std::getline(file, line);
+        while (std::getline(file, line)) {
+            std::stringstream ss(line);
+            std::string name, overview, episode, season, poster, genres;
+            std::getline(ss, name, ';');
+            std::getline(ss, overview, ';');
+            std::getline(ss, episode, ';');
+            std::getline(ss, season, ';');
+            std::getline(ss, poster, ';');
+            std::getline(ss, genres, ';');
+            try {
+                int episodes = episode.empty() ? 0 : std::stoi(episode);
+                int seasons  = season.empty() ? 0 : std::stoi(season);
+                data.push_back(std::make_shared<Series>(
+                    name,
+                    overview,
+                    episodes,
+                    seasons,
+                    poster,
+                    genres
+                ));
+            } catch (...) {
+                continue;
+            }
+        }
+        return data;
+    }
 };
 
 
