@@ -23,7 +23,7 @@ public:
         std::vector<std::shared_ptr<Media>> data;
         std::ifstream file(filen);
         if (!file.is_open()) {
-            throw std::runtime_error("Cannot open file: " + file);
+            throw std::runtime_error("Cannot open file: " + filen);
         }
         std::string line;
         std::getline(file, line);
@@ -37,7 +37,7 @@ public:
             std::getline(ss, durationStr, ';');
             try {
                 int dur = durationStr.empty() ? 0 : std::stoi(durationStr);
-                auto kw = splitKeywordsBySpace(keywordsStr);
+                auto kw = SplitkeywordsbySpace(keywordsStr);
                 data.push_back(std::make_shared<Movie>(title, genres, homepage, kw, dur));
             } catch (...) {
                 continue;

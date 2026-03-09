@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "../src/Model.h"
 #include "../src/User.h"
+#include "../src/Data.h"
 
 TEST(ReviewTest, ShouldPass) {
     EXPECT_NO_THROW(Review("liza1", "super", 10));
@@ -102,6 +103,28 @@ TEST(CustomTestThird, ShouldPassSeries) {
     Custom w("Watched");
     auto s=std::make_shared<Series>("Shameless","gallagher",1,1,"/9akij7PqZ1g6zl42DQQTtL9CTSb.jpg","Drama");
     w.addMedia(s);
+}
+
+static void writeTextFile(const std::string& path, const std::string& content) {
+    std::ofstream out(path, std::ios::binary);
+    if (!out.is_open()) throw std::runtime_error("Can't write test file: " + path);
+    out << content;
+    out.close();
+}
+
+TEST(CSVParserTest, ShouldPass_ParseMoviesFile) {
+    const std::string path = "test_movies.csv";
+    writeTextFile(path,
+        "genres;homepage;keywords;title;duration\n"
+        "Sci-Fi;https://site;dream heist;Inception;148\n"
+        "Drama;;prison hope;Shawshank;142\n"
+    );
+    auto vec = CSVParser::parseMovie(path);
+    EXPECT_EQ(vec.size(), 2);
+    EXPECT_EQ(vec[0]->getType(), "Movie");
+    EXPECT_EQ(vec[0]->getTitle(), "Inception");
+    EXPECT_EQ(vec[0]->getDuration(), 148);
+    std::remove(path.c_str());
 }
 
 
