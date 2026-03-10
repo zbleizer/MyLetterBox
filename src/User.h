@@ -69,6 +69,11 @@ class StartApp {
         <<"|4| Search by title"<<std::endl
         <<"|5| Search by keyword"<<std::endl
         <<"|6| Search by genre"<<std::endl
+        <<"|7| Add to watched"<<std::endl
+        <<"|8| Add to favorites"<<std::endl
+        <<"|9| Write a review"<<std::endl
+        <<"|10| Go to profile"<<std::endl
+        <<"|0| Exit"<<std::endl
         <<"Choose action: ";
     }
 public:
@@ -161,6 +166,39 @@ public:
                 for (const auto& m : res) {
                     m->info();
                 }
+            } else if (choice==7 || choice ==8 || choice==9) {
+                std::cout<<"Enter title: ";
+                std::string title;
+                std::getline(std::cin, title);
+                auto media=db.findbyTittle(title);
+                if (!media) {
+                    std::cout<<"Not found"<<std::endl;
+                    continue;
+                }
+                if (choice==7) {
+                    user->addToWatched(media.value());
+                    std::cout<<"Added to watched"<<std::endl;
+                } else if (choice==8) {
+                    user->addToFavs(media.value());
+                    std::cout<<"Added to favorites"<<std::endl;
+                }
+                else if (choice==9) {
+                    std::cout<<"Rating (1-10): ";
+                    int rating;
+                    std::cin>>rating;
+                    std::cin.ignore();
+                    std::cout<<"Review text: ";
+                    std::string text;
+                    std::getline(std::cin, text);
+                    try {
+                        media.value()->addReview(Review(user->getName(), text, rating));
+                        std::cout << "Review added"<<std::endl;
+                    } catch (const std::exception& e) {
+                        std::cout << "error: " << e.what() << std::endl;
+                    }
+                }
+            }else if (choice==10) {
+                    user->showProfile();
             }
         }
     }
