@@ -63,9 +63,12 @@ class StartApp {
     Database db;
     std::unique_ptr<User> user;
     void Menu() const {
-        std::cout<<"|1| View all media"<<std::endl
+        std::cout<<std::endl<<"|1| View all media"<<std::endl
         <<"|2| View movies"<<std::endl
         <<"|3| View series"<<std::endl
+        <<"|4| Search by title"<<std::endl
+        <<"|5| Search by keyword"<<std::endl
+        <<"|6| Search by genre"<<std::endl
         <<"Choose action: ";
     }
 public:
@@ -95,6 +98,7 @@ public:
             }
             if (choice<0 || choice>10) {
                 std::cout<<"Please, enter a number between 0-10";
+                continue;
             }
             std::cin.ignore();
 
@@ -111,6 +115,51 @@ public:
                 auto series = db.filterbyType("Series");
                 for (const auto& s : series) {
                     s->info();
+                }
+            } else if (choice==4) {
+                std::cout<<"Enter title: ";
+                std::string title;
+                std::getline(std::cin, title);
+                auto found= db.findbyTittle(title);
+                if (found) {
+                    found.value()->info();
+                    found.value()->printReview();
+                } else {
+                    std::cout<<"Not found"<<std::endl;
+                }
+            } else if (choice== 5) {
+                std::cout<<"Enter keyword: ";
+                std::string key;
+                std::getline(std::cin,key);
+                auto res=db.search(Search{Keyword{key}});
+                if (res.size()==1) {
+                    std::cout<<"Found "<<res.size()<<" item:"<<std::endl;
+                }
+                else if (res.size()>1){
+                    std::cout<<"Found "<<res.size()<<" items:"<<std::endl;
+                }
+                else {
+                    std::cout<<"Not found"<<std::endl;
+                }
+                for (const auto& m : res) {
+                    m->info();
+                }
+            } else if (choice==6) {
+                std::cout<<"Enter genre: ";
+                std::string g;
+                std::getline(std::cin, g);
+                auto res=db.search(Search{Genre{g}});
+                if (res.size()==1) {
+                    std::cout<<"Found "<<res.size()<<" item:"<<std::endl;
+                }
+                else if (res.size()>1){
+                    std::cout<<"Found "<<res.size()<<" items:"<<std::endl;
+                }
+                else {
+                    std::cout<<"Not found"<<std::endl;
+                }
+                for (const auto& m : res) {
+                    m->info();
                 }
             }
         }
