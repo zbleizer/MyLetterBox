@@ -6,6 +6,7 @@
 #include <fstream>
 #include <string>
 #include <memory>
+#include <variant>
 
 inline std::vector<std::string> SplitkeywordsbySpace(const std::string& s) {
     std::vector<std::string> out;
