@@ -1,5 +1,9 @@
 #include <iostream>
+
+#include "User.h"
+
 int main() {
-    std::cout << "gg";
+    StartApp app;
+    app.start();
     return 0;
 }
