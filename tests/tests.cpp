@@ -117,6 +117,18 @@ TEST(UserTest, ShoulPassAddToFavs) {
     EXPECT_NO_THROW(me.showProfile());
 }
 
+TEST(UserTestSecond, ShoulPassAddToWatched) {
+    User me("darlumink");
+
+    auto p=std::make_shared<Movie>("Pulp Fiction", "Crime", "", std::vector<std::string>{"drug"}, 154);
+    auto s=std::make_shared<Series>("Shameless","gallagher",1,1,"/9akij7PqZ1g6zl42DQQTtL9CTSb.jpg","Drama");
+
+    EXPECT_NO_THROW(me.addToWatched(p));
+    EXPECT_NO_THROW(me.addToWatched(s));
+
+    EXPECT_NO_THROW(me.showProfile());
+}
+
 static void writeTextFile(const std::string& path, const std::string& content) {
     std::ofstream out(path, std::ios::binary);
     if (!out.is_open()) throw std::runtime_error("Can't write test file: " + path);
