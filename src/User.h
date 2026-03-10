@@ -6,6 +6,7 @@
 #include <memory>
 #include <iostream>
 #include "Model.h"
+#include "Data.h"
 
 class Custom{
     std::string list_name;
@@ -48,6 +49,13 @@ public:
 
     void addToWatched(std::shared_ptr<Media> w) {
         watched.addMedia(std::move(w));
+    }
+
+    void showProfile() const {
+        std::cout<<std::endl<<"| User Profile: "<<nickname<<" |"<<std::endl;
+        favs.printCustom();
+        watched.printCustom();
+        std::cout<<"Total watch time: "<<Analytics::calculate(watched.getItems())<<" minutes"<<std::endl;
     }
 };
 #endif
