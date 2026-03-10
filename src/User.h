@@ -98,14 +98,13 @@ public:
             if (!(std::cin >> choice)) {
                 std::cin.clear();
                 std::cin.ignore(1000, '\n');
-                std::cout<<"Please, enter a number between 0-10";
-                continue;
-            }
-            if (choice<0 || choice>10) {
-                std::cout<<"Please, enter a number between 0-10";
                 continue;
             }
             std::cin.ignore();
+            if (choice<0 || choice>10) {
+                std::cout<<"Please, enter a number between 0-10"<<std::endl;
+                continue;
+            }
 
             if (choice == 1) {
                 for (const auto& m : db.getAll()) {
