@@ -18,13 +18,16 @@ public:
         items.emplace_back(std::move(media));
     }
 
-    void printCustom() const {
+    void printCustom(bool showReviews=false) const {
         std::cout<<std::endl<<"-> List: "<<list_name<<" <-"<<std::endl;
         if (items.empty()) {
             std::cout<<"Empty... :("<<std::endl;
         }
         for (auto& i:items){
             i->info();
+            if (showReviews) {
+                i->printReview();
+            }
         }
     }
     const std::vector<std::shared_ptr<Media>>& getItems() const {
@@ -53,9 +56,9 @@ public:
 
     void showProfile() const {
         std::cout<<std::endl<<"| User Profile: "<<nickname<<" |"<<std::endl;
-        favs.printCustom();
-        watched.printCustom();
-        std::cout<<"Total watch time: "<<Analytics::calculate(watched.getItems())<<" minutes"<<std::endl;
+        favs.printCustom(false);
+        watched.printCustom(true);
+        std::cout<<std::endl<<"Total watch time: "<<Analytics::calculate(watched.getItems())<<" minutes"<<std::endl;
     }
 };
 
