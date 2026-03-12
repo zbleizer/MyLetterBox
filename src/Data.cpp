@@ -71,12 +71,10 @@ void Database::loadMovies(const std::string& file) {
     auto movies = CSVParser::parseMovie(file);
     lib.insert(lib.end(), movies.begin(), movies.end());
 }
-
 void Database::loadSeries(const std::string& file) {
     auto series = CSVParser::parseSeries(file);
     lib.insert(lib.end(), series.begin(), series.end());
 }
-
 void Database::loadAll(const std::string& movFile, const std::string& serFile) {
     loadMovies(movFile);
     loadSeries(serFile);
