@@ -94,17 +94,17 @@ public:
         auto series = CSVParser::parseSeries(file);
         lib.insert(lib.end(), series.begin(), series.end());
     }
-    void loadAll(const std::string& movF, const std::string& serF) {
-        loadMovies(movF);
-        loadSeries(serF);
+    void loadAll(const std::string& movFile, const std::string& serFile) {
+        loadMovies(movFile);
+        loadSeries(serFile);
     }
     const std::vector<std::shared_ptr<Media>>& getAll() const {
         return lib;
     }
     std::optional<std::shared_ptr<Media>> findbyTittle(const std::string& title) const {
-        for (const auto& m : lib) {
-            if (m->getTitle() == title) {
-                return m;
+        for (const auto& media : lib) {
+            if (media->getTitle() == title) {
+                return media;
             }
         }
         return std::nullopt;

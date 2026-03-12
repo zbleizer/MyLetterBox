@@ -1,0 +1,34 @@
+name: C++ CI with CMake
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        compiler: [g++, clang++]
+        
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup CMake
+      uses: lukka/get-cmake@latest
+    
+    - name: Create Build Environment
+      run: cmake -E make_directory build
+    
+    - name: Configure CMake
+      shell: bash
+      working-directory: build/
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=Release
+    
+    - name: Build
+      working-directory: build/
+      run: cmake --build . --config Release
+    
+    - name: Test
+      working-directory: build/
+      run: ctest -C Release --output-on-failure
