@@ -1,7 +1,23 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.20)
 project(MyLetterBox)
 
 set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(SOURCES
+        src/main.cpp
+        src/Model.cpp
+        src/Data.cpp
+        src/User.cpp
+)
+
+set(HEADERS
+        includeh/Model.h
+        includeh/Data.h
+        includeh/User.h
+)
+
+add_executable(MyLetterBox ${SOURCES} ${HEADERS})
 
 include(FetchContent)
 FetchContent_Declare(
@@ -11,12 +27,22 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-add_executable(MyLetterBox src/main.cpp
-        includeh/Model.h
-        includeh/Data.h
-        includeh/User.h
+add_executable(Tests
+        tests/tests.cpp
         src/Model.cpp
         src/Data.cpp
-        src/User.cpp)
-add_executable(Tests tests/tests.cpp)
-target_link_libraries(Tests gtest_main)
+        src/User.cpp
+)
+
+target_include_directories(Tests PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/includeh
+)
+
+target_link_libraries(Tests
+        PRIVATE
+        gtest_main
+        gtest
+)
+target_include_directories(MyLetterBox PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/includeh
+)
