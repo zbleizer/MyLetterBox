@@ -2,6 +2,7 @@
 #include "../includeh/Model.h"
 #include "../includeh/User.h"
 #include "../includeh/Data.h"
+#include <fstream>
 
 TEST(ReviewTest, ShouldPass) {
     EXPECT_NO_THROW(Review("liza1", "super", 10));
