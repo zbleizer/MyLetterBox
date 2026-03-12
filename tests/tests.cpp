@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "../src/Model.h"
-#include "../src/User.h"
-#include "../src/Data.h"
+#include "../includeh/Model.h"
+#include "../includeh/User.h"
+#include "../includeh/Data.h"
 
 TEST(ReviewTest, ShouldPass) {
     EXPECT_NO_THROW(Review("liza1", "super", 10));
