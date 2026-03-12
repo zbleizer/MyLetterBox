@@ -16,6 +16,7 @@ add_executable(MyLetterBox src/main.cpp
         includeh/Data.h
         includeh/User.h
         src/Model.cpp
-        src/Data.cpp)
+        src/Data.cpp
+        src/User.cpp)
 add_executable(Tests tests/tests.cpp)
 target_link_libraries(Tests gtest_main)
