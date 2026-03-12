@@ -2,22 +2,16 @@ cmake_minimum_required(VERSION 3.20)
 project(MyLetterBox)
 
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(SOURCES
+add_executable(MyLetterBox
+        includeh/Model.h
+        includeh/Data.h
+        includeh/User.h
         src/main.cpp
         src/Model.cpp
         src/Data.cpp
         src/User.cpp
 )
-
-set(HEADERS
-        includeh/Model.h
-        includeh/Data.h
-        includeh/User.h
-)
-
-add_executable(MyLetterBox ${SOURCES} ${HEADERS})
 
 include(FetchContent)
 FetchContent_Declare(
@@ -34,15 +28,4 @@ add_executable(Tests
         src/User.cpp
 )
 
-target_include_directories(Tests PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/includeh
-)
-
-target_link_libraries(Tests
-        PRIVATE
-        gtest_main
-        gtest
-)
-target_include_directories(MyLetterBox PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/includeh
-)
+target_link_libraries(Tests gtest_main)
