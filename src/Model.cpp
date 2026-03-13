@@ -29,8 +29,14 @@ bool Media::haveSubstring(const std::string& text, const std::string& word) {
     if (word.empty()) {
         return true;
     }
-    const auto ttext = ' ' + low(text) + ' ';
-    const auto wword = low(word);
+    std::string ttext = ' ' + low(text) + ' ';
+    const std::string wword = low(word);
+    std::string punct = ".,!?:;\"'()[]{}<>-";
+    for (char& c : ttext) {
+        if (punct.find(c) != std::string::npos) {
+            c = ' ';
+        }
+    }
     return ttext.find(' ' + wword + ' ') != std::string::npos;
 }
 
