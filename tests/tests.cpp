@@ -102,8 +102,13 @@ TEST(CustomTestSecond, ShouldPass) {
 
 TEST(CustomTestThird, ShouldPassSeries) {
     Custom w("Watched");
+    EXPECT_EQ(w.getItems().size(),0);
+
     auto s=std::make_shared<Series>("Shameless","gallagher",1,1,"/9akij7PqZ1g6zl42DQQTtL9CTSb.jpg","Drama");
     w.addMedia(s);
+
+    EXPECT_EQ(w.getItems().size(), 1);
+    EXPECT_EQ(w.getItems()[0]->getTitle(), "Shameless");
 }
 
 TEST(UserTest, ShoulPassAddToFavs) {
