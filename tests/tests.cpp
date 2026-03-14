@@ -74,7 +74,7 @@ TEST(SeriesTest, ShouldPass_Keywords) {
     EXPECT_FALSE(s.haveKeyword("be"));
 }
 
-TEST(CustomTest, ShouldPass) {
+TEST(CustomTest, ShouldPass_OneMovie) {
     Custom c("Favs");
     EXPECT_EQ(c.getItems().size(),0);
 
@@ -85,7 +85,7 @@ TEST(CustomTest, ShouldPass) {
     EXPECT_EQ(c.getItems()[0]->getTitle(), "Pulp Fiction");
 }
 
-TEST(CustomTestSecond, ShouldPass) {
+TEST(CustomTest, ShouldPass_TwoMovies) {
     Custom c("Favs");
     EXPECT_EQ(c.getItems().size(),0);
 
@@ -100,7 +100,7 @@ TEST(CustomTestSecond, ShouldPass) {
     EXPECT_EQ(c.getItems()[1]->getTitle(), "Harry Potter and the Half-Blood Prince");
 }
 
-TEST(CustomTestThird, ShouldPassSeries) {
+TEST(CustomTest, ShouldPass_Series) {
     Custom w("Watched");
     EXPECT_EQ(w.getItems().size(),0);
 
@@ -123,7 +123,7 @@ TEST(UserTest, ShoulPassAddToFavs) {
     EXPECT_NO_THROW(me.showProfile());
 }
 
-TEST(UserTestSecond, ShoulPassAddToWatched) {
+TEST(UserTest, ShoulPassAddToWatched) {
     User me("darlumink");
 
     auto p=std::make_shared<Movie>("Pulp Fiction", "Crime", "", std::vector<std::string>{"drug"}, 154);
